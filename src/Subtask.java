@@ -10,10 +10,6 @@ public class Subtask extends Task {
     }
 
 
-    @Override
-    public String getStatus() {
-        return status;
-    }
 
 
     public void setStatus(int status) {

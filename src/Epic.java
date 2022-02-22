@@ -3,7 +3,7 @@ import java.util.HashMap;
 public class Epic extends Task {
     private String name = "";
     private HashMap<Integer, Subtask> subTaskList = new HashMap<>();
-    String status = "NEW";
+    private String status = "NEW";
 
 
     public void setSubTaskList(HashMap<Integer, Subtask> subTaskList) {

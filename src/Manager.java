@@ -2,22 +2,33 @@ import java.util.HashMap;
 
 public class Manager {
     private int counter = 0;
-    HashMap<Integer, Task> taskList = new HashMap<>();
-    HashMap<Integer, Epic> epicList = new HashMap<>();
+    private HashMap<Integer, Task> taskList = new HashMap<>();
+    private HashMap<Integer, Epic> epicList = new HashMap<>();
 
-    public void printTasks() {
-        System.out.println(taskList.toString());
+    public int getCounter() {
+        return counter;
     }
 
-    public void printEpicList() {
-        System.out.println(epicList.toString());
+    public HashMap<Integer, Task> getTaskList() {
+        return taskList;
     }
 
-    public void printSubTaskList(int id) {
-        if (epicList.containsKey(id)) {
-            System.out.println(epicList.get(id).toString());
-        } else System.out.println("нет такого эпика(");
+    public HashMap<Integer, Epic> getEpicList() {
+        return epicList;
     }
+
+    public HashMap<Integer, Task> returnTaskList() {
+        return taskList;
+    }
+
+    public HashMap<Integer, Epic> returnEpicList() {
+        return epicList;
+    }
+
+    public HashMap<Integer, Subtask> returnSubTaskList(int id) {
+            return epicList.get(id).getSubTaskList();
+        }
+
 
     public void addNewEpic(Epic epic) {
         epicList.put(counter++, epic);
@@ -38,8 +49,8 @@ public class Manager {
             counterStatus++;
         }
         if (sum == (counterStatus * 3)) {
-            epicList.get(id).status = "DONE";
-        } else if (sum > counterStatus) epicList.get(id).status = "IN_PROGRESS";
+            epicList.get(id).setStatus(3);
+        } else if (sum > counterStatus) epicList.get(id).setStatus(2);
 
     }
 
