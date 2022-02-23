@@ -1,3 +1,4 @@
+package tasks.tasks;
 
 public class Subtask extends Task {
     private String name = "";
@@ -9,8 +10,10 @@ public class Subtask extends Task {
         this.description = description;
     }
 
-
-
+    @Override
+    public String getStatus() {
+        return status;
+    }
 
     public void setStatus(int status) {
         if (status == 1) this.status = "NEW";

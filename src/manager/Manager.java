@@ -1,3 +1,9 @@
+package tasks.manager;
+
+import tasks.tasks.Epic;
+import tasks.tasks.Subtask;
+import tasks.tasks.Task;
+
 import java.util.HashMap;
 
 public class Manager {
@@ -26,8 +32,8 @@ public class Manager {
     }
 
     public HashMap<Integer, Subtask> returnSubTaskList(int id) {
-            return epicList.get(id).getSubTaskList();
-        }
+        return epicList.get(id).getSubTaskList();
+    }
 
 
     public void addNewEpic(Epic epic) {
@@ -40,18 +46,7 @@ public class Manager {
     }
 
     public void changeStatus(int id) {
-        int counterStatus = 0;
-        int sum = 0;
-        for (int i = 0; i < epicList.get(id).getSubTaskList().size(); i++) {
-            if (epicList.get(id).getSubTaskList().get(i).getStatus().equals("NEW")) sum++;
-            if (epicList.get(id).getSubTaskList().get(i).getStatus().equals("IN_PROGRESS")) sum = sum + 2;
-            if (epicList.get(id).getSubTaskList().get(i).getStatus().equals("DONE")) sum = sum + 3;
-            counterStatus++;
-        }
-        if (sum == (counterStatus * 3)) {
-            epicList.get(id).setStatus(3);
-        } else if (sum > counterStatus) epicList.get(id).setStatus(2);
-
+        epicList.get(id).setStatus();
     }
 
     public Subtask createNewSubTask(String name, String description) {

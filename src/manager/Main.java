@@ -1,3 +1,9 @@
+package tasks.manager;
+
+import tasks.manager.Manager;
+import tasks.tasks.Epic;
+import tasks.tasks.Subtask;
+
 import java.util.HashMap;
 import java.util.Scanner;
 
