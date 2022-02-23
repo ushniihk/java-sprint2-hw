@@ -49,8 +49,8 @@ public class Manager {
         epicList.get(id).setStatus();
     }
 
-    public Subtask createNewSubTask(String name, String description) {
-        Subtask subtask = new Subtask(name, description);
+    public Subtask createNewSubTask(String name, String description, int epicID) {
+        Subtask subtask = new Subtask(name, description, epicID);
         return subtask;
     }
 

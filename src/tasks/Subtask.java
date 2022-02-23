@@ -4,15 +4,21 @@ public class Subtask extends Task {
     private String name = "";
     private String description = "";
     private String status = "NEW";
+    private int epicID = 0;
 
-    public Subtask(String name, String description) {
+    public Subtask(String name, String description, int epicID) {
         this.name = name;
         this.description = description;
+        this.epicID = epicID;
     }
 
     @Override
     public String getStatus() {
         return status;
+    }
+
+    public void setEpicID(int epicID) {
+        this.epicID = epicID;
     }
 
     public void setStatus(int status) {
@@ -27,6 +33,8 @@ public class Subtask extends Task {
                 "Название ='" + name + '\'' +
                 ", Описание ='" + description + '\'' +
                 ", Статус ='" + status + '\'' +
+                ", Номер Эпика ='" + epicID + '\'' +
+
                 '}';
     }
 }

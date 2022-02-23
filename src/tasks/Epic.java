@@ -7,7 +7,6 @@ public class Epic extends Task {
     private HashMap<Integer, Subtask> subTaskList = new HashMap<>();
     private String status = "NEW";
 
-
     public void setSubTaskList(HashMap<Integer, Subtask> subTaskList) {
         this.subTaskList = subTaskList;
     }
@@ -37,7 +36,7 @@ public class Epic extends Task {
         if (sum == (counterStatus * 3)) {
             status = "DONE";
         } else if (sum > counterStatus) {
-            status =  "IN_PROGRESS";
+            status = "IN_PROGRESS";
         }
     }
 

@@ -1,6 +1,5 @@
 package tasks.manager;
 
-import tasks.manager.Manager;
 import tasks.tasks.Epic;
 import tasks.tasks.Subtask;
 
@@ -82,7 +81,7 @@ public class Main {
                                     String nameSubTask = scanner.nextLine();
                                     System.out.println("Теперь описание");
                                     String descriptionSubTask = scanner.nextLine();
-                                    subtaskHashMap.put(i, manager.createNewSubTask(nameSubTask, descriptionSubTask));
+                                    subtaskHashMap.put(i, manager.createNewSubTask(nameSubTask, descriptionSubTask, manager.getCounter()));
                                 }
                                 epic.setSubTaskList(subtaskHashMap);
                                 break;
