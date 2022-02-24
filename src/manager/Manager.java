@@ -74,9 +74,12 @@ public class Manager {
         epicList.remove(id);
     }
 
-    public void findTask(int id) {
-        if (taskList.containsKey(id)) System.out.println(taskList.get(id));
-        if (epicList.containsKey(id)) System.out.println(epicList.get(id));
+    public Task findTask(int id) {
+        return taskList.get(id);
+    }
+
+    public Epic findEpic(int id) {
+        return epicList.get(id);
     }
 
     public void updateTask(int id, int status) {

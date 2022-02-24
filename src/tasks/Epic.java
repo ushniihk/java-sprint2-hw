@@ -3,9 +3,9 @@ package tasks.tasks;
 import java.util.HashMap;
 
 public class Epic extends Task {
-    private String name = "";
+    private String name;
     private HashMap<Integer, Subtask> subTaskList = new HashMap<>();
-    private String status = "NEW";
+    private String status;
 
     public void setSubTaskList(HashMap<Integer, Subtask> subTaskList) {
         this.subTaskList = subTaskList;

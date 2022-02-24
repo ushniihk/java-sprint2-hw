@@ -1,8 +1,8 @@
 package tasks.tasks;
 
 public class Task {
-    private String name = "";
-    private String description = "";
+    private String name;
+    private String description;
     private String status = "NEW";
 
     public Task() {

@@ -1,9 +1,9 @@
 package tasks.tasks;
 
 public class Subtask extends Task {
-    private String name = "";
-    private String description = "";
-    private String status = "NEW";
+    private String name;
+    private String description;
+    private String status;
     private int epicID = 0;
 
     public Subtask(String name, String description, int epicID) {
@@ -17,9 +17,6 @@ public class Subtask extends Task {
         return status;
     }
 
-    public void setEpicID(int epicID) {
-        this.epicID = epicID;
-    }
 
     public void setStatus(int status) {
         if (status == 1) this.status = "NEW";

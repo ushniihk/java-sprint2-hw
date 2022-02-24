@@ -50,7 +50,15 @@ public class Main {
                     System.out.println("Введите номер задачи которую хотите найти");
                     if (scanner.hasNextInt()) {
                         int id = Integer.parseInt(scanner.nextLine());
-                        manager.findTask(id);
+                        if (manager.getTaskList().containsKey(id)) {
+                            System.out.println(manager.findTask(id).toString());
+                            break;
+                        }
+                        if (manager.getEpicList().containsKey(id)) {
+                            System.out.println(manager.findEpic(id).toString());
+                            break;
+                        } else System.out.println("нет такой задачи(");
+                        break;
                     } else System.out.println("ошибочка");
                     break;
                 case "3":
@@ -81,7 +89,7 @@ public class Main {
                                     String nameSubTask = scanner.nextLine();
                                     System.out.println("Теперь описание");
                                     String descriptionSubTask = scanner.nextLine();
-                                    subtaskHashMap.put(i, manager.createNewSubTask(nameSubTask, descriptionSubTask, manager.getCounter()));
+                                    subtaskHashMap.put(i, manager.createNewSubTask(nameSubTask, descriptionSubTask, manager.getCounter() - 1));
                                 }
                                 epic.setSubTaskList(subtaskHashMap);
                                 break;
