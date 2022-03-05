@@ -6,6 +6,7 @@ import tasks.tasks.Subtask;
 import tasks.tasks.Task;
 
 import java.util.HashMap;
+import java.util.List;
 
 public interface TaskManager {
 
@@ -45,4 +46,7 @@ public interface TaskManager {
 
         public void updateTask(int id, int status);
 
+        public List<Task> history();
+
+        public void addTaskInTasksHistory(Task task);
 }

@@ -17,7 +17,8 @@ public class Main {
                     "4.Изменить статус задачи\n" +
                     "5.Удалить задачу\n" +
                     "6.Очистить список задач\n" +
-                    "7.Выход");
+                    "7.Показать историю поиска задач\n" +
+                    "8.Выход");
             Scanner scanner = new Scanner(System.in);
             String input = scanner.nextLine();
             switch (input) {
@@ -52,11 +53,24 @@ public class Main {
                         int id = Integer.parseInt(scanner.nextLine());
                         if (inMemoryTaskManager.getTaskList().containsKey(id)) {
                             System.out.println(inMemoryTaskManager.findTask(id).toString());
+                            inMemoryTaskManager.addTaskInTasksHistory(inMemoryTaskManager.getTaskList().get(id));
                             break;
                         }
-                        if (inMemoryTaskManager.getEpicList().containsKey(id)) {
+                         if (inMemoryTaskManager.getEpicList().containsKey(id)) {
                             System.out.println(inMemoryTaskManager.findEpic(id).toString());
+                            inMemoryTaskManager.addTaskInTasksHistory(inMemoryTaskManager.getEpicList().get(id));
                             break;
+                        }
+                        boolean answer = false;
+                        for (Epic epic: inMemoryTaskManager.getEpicList().values()) {
+                           if (epic.getSubTaskList().containsKey(id)) answer = true;
+                        }
+                        if (answer) {
+                            for (Epic epic: inMemoryTaskManager.getEpicList().values()) {
+                                if (epic.getSubTaskList().containsKey(id))
+                                    System.out.println(epic.getSubTaskList().get(id).toString());
+                                inMemoryTaskManager.addTaskInTasksHistory(epic.getSubTaskList().get(id));
+                            }
                         } else System.out.println("нет такой задачи(");
                         break;
                     } else System.out.println("ошибочка");
@@ -89,7 +103,9 @@ public class Main {
                                     String nameSubTask = scanner.nextLine();
                                     System.out.println("Теперь описание");
                                     String descriptionSubTask = scanner.nextLine();
-                                    subtaskHashMap.put(i, inMemoryTaskManager.createNewSubTask(nameSubTask, descriptionSubTask, inMemoryTaskManager.getCounter() - 1));
+                                    Subtask s = inMemoryTaskManager.createNewSubTask(nameSubTask, descriptionSubTask,
+                                            inMemoryTaskManager.getCounter() - (1 - i));
+                                    subtaskHashMap.put(s.getId(), s);
                                 }
                                 epic.setSubTaskList(subtaskHashMap);
                                 break;
@@ -136,6 +152,7 @@ public class Main {
                     if (scanner.hasNextInt()) {
                         int taskNumber = Integer.parseInt(scanner.nextLine());
                         inMemoryTaskManager.deleteTask(taskNumber);
+                        break;
                     }
                     System.out.println("ошибочка");
                     break;
@@ -148,7 +165,10 @@ public class Main {
                     }
                     break;
                 case "7":
-                    System.exit(7);
+                    System.out.println(inMemoryTaskManager.history());
+                    break;
+                case "8":
+                    System.exit(8);
                 default:
                     System.out.println("нет такой команды");
                     break;

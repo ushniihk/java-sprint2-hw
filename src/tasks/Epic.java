@@ -5,15 +5,21 @@ import java.util.HashMap;
 public class Epic extends Task {
     private String name;
     private HashMap<Integer, Subtask> subTaskList = new HashMap<>();
-    private String status;
+    private String status = "NEW";
+    private Integer id;
 
     public void setSubTaskList(HashMap<Integer, Subtask> subTaskList) {
         this.subTaskList = subTaskList;
     }
 
+    @Override
+    public Integer getId() {
+        return id;
+    }
 
-    public Epic(String name) {
+    public Epic(String name, Integer id) {
         this.name = name;
+        this.id = id;
     }
 
     public HashMap<Integer, Subtask> getSubTaskList() {
@@ -44,8 +50,8 @@ public class Epic extends Task {
     public String toString() {
         return "Эпик{" +
                 "имя ='" + name + '\'' +
-                ", Список подзадач =" + subTaskList +
                 ", Статус = " + status +
+                ", ID = " + id +
                 '}';
     }
 }

@@ -4,8 +4,13 @@ public class Task {
     private String name;
     private String description;
     private String status = "NEW";
+    private Integer id;
 
     public Task() {
+    }
+
+    public Integer getId() {
+        return id;
     }
 
 
@@ -19,12 +24,14 @@ public class Task {
                 "Название='" + name + '\'' +
                 ", Описание='" + description + '\'' +
                 ", Статус='" + status + '\'' +
+                ", ID='" + id + '\'' +
                 '}';
     }
 
-    public Task(String name, String description) {
+    public Task(String name, String description, Integer id) {
         this.name = name;
         this.description = description;
+        this.id = id;
     }
 
 
