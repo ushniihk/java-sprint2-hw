@@ -3,7 +3,7 @@ package tasks.tasks;
 public class Task {
     private String name;
     private String description;
-    private String status = "NEW";
+    private Status status = Status.NEW;
     private Integer id;
 
     public Task() {
@@ -14,7 +14,7 @@ public class Task {
     }
 
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
@@ -36,8 +36,8 @@ public class Task {
 
 
     public void setStatus(int status) {
-        if (status == 1) this.status = "NEW";
-        if (status == 2) this.status = "IN_PROGRESS";
-        if (status == 3) this.status = "DONE";
+        if (status == 1) this.status = Status.NEW;
+        if (status == 2) this.status = Status.IN_PROGRESS;
+        if (status == 3) this.status = Status.IN_PROGRESS;
     }
 }

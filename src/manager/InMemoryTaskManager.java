@@ -4,15 +4,12 @@ import tasks.tasks.Epic;
 import tasks.tasks.Subtask;
 import tasks.tasks.Task;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class InMemoryTaskManager implements TaskManager {
     private int counter = 0;
     private HashMap<Integer, Task> taskList = new HashMap<>();
     private HashMap<Integer, Epic> epicList = new HashMap<>();
-    private List<Task> tasksHistory = new ArrayList<>();
 
     @Override
     public int getCounter() {
@@ -56,7 +53,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void changeStatus(int id) {
+    public void changeStatus(Integer id) {
         epicList.get(id).setStatus();
     }
 
@@ -87,7 +84,7 @@ public class InMemoryTaskManager implements TaskManager {
     public void deleteTask(int id) {
         taskList.remove(id);
         epicList.remove(id);
-        for (Epic epic: epicList.values()) {
+        for (Epic epic : epicList.values()) {
             epic.getSubTaskList().remove(id);
         }
     }
@@ -110,14 +107,10 @@ public class InMemoryTaskManager implements TaskManager {
         } else System.out.println("нет такой задачи");
     }
 
-    @Override
-    public List<Task> history() {
-        return tasksHistory;
+    public void updateSubTask(int id, int status) {
+            epicList.get(id).setStatus(status);
+
     }
 
-    @Override
-    public void addTaskInTasksHistory(Task task) {
-        tasksHistory.add(task);
-        if (tasksHistory.size() > 10) tasksHistory.remove(0);
-    }
+
 }

@@ -9,6 +9,8 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager();
+        InMemoryHistoryManager inMemoryHistoryManager = new InMemoryHistoryManager();
+        Managers.getDefault();
         while (true) {
             System.out.println("Что бы вы хотели сделать?\n" +
                     "1.Получить список всех задач\n" +
@@ -53,23 +55,23 @@ public class Main {
                         int id = Integer.parseInt(scanner.nextLine());
                         if (inMemoryTaskManager.getTaskList().containsKey(id)) {
                             System.out.println(inMemoryTaskManager.findTask(id).toString());
-                            inMemoryTaskManager.addTaskInTasksHistory(inMemoryTaskManager.getTaskList().get(id));
+                            inMemoryHistoryManager.add(inMemoryTaskManager.getTaskList().get(id));
                             break;
                         }
-                         if (inMemoryTaskManager.getEpicList().containsKey(id)) {
+                        if (inMemoryTaskManager.getEpicList().containsKey(id)) {
                             System.out.println(inMemoryTaskManager.findEpic(id).toString());
-                            inMemoryTaskManager.addTaskInTasksHistory(inMemoryTaskManager.getEpicList().get(id));
+                            inMemoryHistoryManager.add(inMemoryTaskManager.getEpicList().get(id));
                             break;
                         }
                         boolean answer = false;
-                        for (Epic epic: inMemoryTaskManager.getEpicList().values()) {
-                           if (epic.getSubTaskList().containsKey(id)) answer = true;
+                        for (Epic epic : inMemoryTaskManager.getEpicList().values()) {
+                            if (epic.getSubTaskList().containsKey(id)) answer = true;
                         }
                         if (answer) {
-                            for (Epic epic: inMemoryTaskManager.getEpicList().values()) {
+                            for (Epic epic : inMemoryTaskManager.getEpicList().values()) {
                                 if (epic.getSubTaskList().containsKey(id))
                                     System.out.println(epic.getSubTaskList().get(id).toString());
-                                inMemoryTaskManager.addTaskInTasksHistory(epic.getSubTaskList().get(id));
+                                inMemoryHistoryManager.add(epic.getSubTaskList().get(id));
                             }
                         } else System.out.println("нет такой задачи(");
                         break;
@@ -104,7 +106,7 @@ public class Main {
                                     System.out.println("Теперь описание");
                                     String descriptionSubTask = scanner.nextLine();
                                     Subtask s = inMemoryTaskManager.createNewSubTask(nameSubTask, descriptionSubTask,
-                                            inMemoryTaskManager.getCounter() - (1 - i));
+                                            inMemoryTaskManager.getCounter() - 1 - i);
                                     subtaskHashMap.put(s.getId(), s);
                                 }
                                 epic.setSubTaskList(subtaskHashMap);
@@ -118,24 +120,31 @@ public class Main {
                     System.out.println("Введите номер задачи в которой нужно изменить статус");
                     if (scanner.hasNextInt()) {
                         int taskNumber = Integer.parseInt(scanner.nextLine());
-                        if (inMemoryTaskManager.getEpicList().containsKey(taskNumber)) {
-                            System.out.println("Вот список подзадач этого эпика\n" +
-                                    "выберите подзадачу");
-                            System.out.println(inMemoryTaskManager.getEpicList().get(taskNumber).getSubTaskList());
-                            if (scanner.hasNextInt()) {
-                                int subTaskNumber = Integer.parseInt(scanner.nextLine());
-                                System.out.println("укажите статус задачи\n" +
-                                        "1 - новая\n" +
-                                        "2 - в процессе\n" +
-                                        "3 - выполнена");
-                                if (scanner.hasNextInt()) {
-                                    int status = Integer.parseInt(scanner.nextLine());
-                                    inMemoryTaskManager.getEpicList().get(taskNumber).getSubTaskList().get(subTaskNumber).setStatus(status);
-                                    inMemoryTaskManager.changeStatus(taskNumber);
-                                } else System.out.println("ошибочка");
-                                break;
-                            } else System.out.println("ошибочка");
-                        } else if (inMemoryTaskManager.getTaskList().containsKey(taskNumber)) {
+                        boolean answer = false;
+                        for (Epic epic : inMemoryTaskManager.getEpicList().values()) {
+                            if (epic.getSubTaskList().containsKey(taskNumber)) answer = true;
+                        }
+                        if (answer) {
+                            for (Epic epic : inMemoryTaskManager.getEpicList().values()) {
+                                if (epic.getSubTaskList().containsKey(taskNumber)) {
+                                    System.out.println("укажите статус задачи\n" +
+                                            "1 - новая\n" +
+                                            "2 - в процессе\n" +
+                                            "3 - выполнена");
+                                    if (scanner.hasNextInt()) {
+                                        int status = Integer.parseInt(scanner.nextLine());
+                                        epic.getSubTaskList().get(taskNumber).setStatus(status);
+                                        inMemoryTaskManager.changeStatus(epic.getId());
+                                    } else System.out.println("ошибочка");
+                                } break;
+                            }
+                        }
+
+                      else if (inMemoryTaskManager.getEpicList().containsKey(taskNumber)) {
+                          System.out.println("для эпика нельзя менять статус");
+                          break;
+                      }
+                      else if (inMemoryTaskManager.getTaskList().containsKey(taskNumber)) {
                             System.out.println("укажите статус задачи\n" +
                                     "1 - новая\n" +
                                     "2 - в процессе\n" +
@@ -144,6 +153,7 @@ public class Main {
                                 int status = Integer.parseInt(scanner.nextLine());
                                 inMemoryTaskManager.updateTask(taskNumber, status);
                             } else System.out.println("ошибочка");
+                            break;
                         } else System.out.println("Нет такой задачи");
                     } else System.out.println("ошибочка");
                     break;
@@ -165,7 +175,7 @@ public class Main {
                     }
                     break;
                 case "7":
-                    System.out.println(inMemoryTaskManager.history());
+                    System.out.println(inMemoryHistoryManager.getHistory());
                     break;
                 case "8":
                     System.exit(8);
