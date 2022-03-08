@@ -1,8 +1,14 @@
 package tasks.manager;
 
-public class Managers {
+class Managers {
+    private Managers() {
+    }
+
     public static TaskManager getDefault() {
-        InMemoryTaskManager manager = new InMemoryTaskManager();
-        return manager;
+        return new InMemoryTaskManager();
+    }
+
+    public static HistoryManager getDefaultHistory() {
+        return new InMemoryHistoryManager();
     }
 }

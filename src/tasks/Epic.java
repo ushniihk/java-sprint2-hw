@@ -33,7 +33,7 @@ public class Epic extends Task {
     public void setStatus() {
         int counterStatus = 0;
         int sum = 0;
-        for (Subtask subtask: subTaskList.values()) {
+        for (Subtask subtask : subTaskList.values()) {
             if (subtask.getStatus() == Status.NEW) sum++;
             if (subtask.getStatus() == Status.IN_PROGRESS) sum = sum + 2;
             if (subtask.getStatus() == Status.DONE) sum = sum + 3;

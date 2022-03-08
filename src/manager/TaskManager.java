@@ -10,39 +10,39 @@ import java.util.HashMap;
 public interface TaskManager {
 
 
-    int getCounter();
+    abstract int getCounter();
 
-    HashMap<Integer, Task> getTaskList();
+    abstract HashMap<Integer, Task> getTaskList();
 
-    HashMap<Integer, Epic> getEpicList();
+    abstract HashMap<Integer, Epic> getEpicList();
 
-    HashMap<Integer, Task> returnTaskList();
+    abstract HashMap<Integer, Task> returnTaskList();
 
-    HashMap<Integer, Epic> returnEpicList();
+    abstract HashMap<Integer, Epic> returnEpicList();
 
-    HashMap<Integer, Subtask> returnSubTaskList(int id);
+    abstract HashMap<Integer, Subtask> returnSubTaskList(int id);
 
 
-    void addNewEpic(Epic epic);
+    abstract void addNewEpic(Epic epic);
 
-    Epic createNewEpic(String name);
+    abstract Epic createNewEpic(String name);
 
-    void changeStatus(Integer id);
+    abstract void changeStatus(Integer id);
 
-    Subtask createNewSubTask(String name, String description, int epicID);
+    abstract Subtask createNewSubTask(String name, String description, int epicID);
 
-    void addNewTask(Task task);
+    abstract void addNewTask(Task task);
 
-    Task createNewTask(String name, String description);
+    abstract Task createNewTask(String name, String description);
 
-    void deleteAllTasks();
+    abstract void deleteAllTasks();
 
-    void deleteTask(int id);
+    abstract void deleteTask(int id);
 
-    Task findTask(int id);
+    abstract Task findTask(int id);
 
-    Epic findEpic(int id);
+    abstract Epic findEpic(int id);
 
-    void updateTask(int id, int status);
+    abstract void updateTask(int id, int status);
 
 }

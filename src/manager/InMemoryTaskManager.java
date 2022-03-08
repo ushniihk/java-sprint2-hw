@@ -107,10 +107,4 @@ public class InMemoryTaskManager implements TaskManager {
         } else System.out.println("нет такой задачи");
     }
 
-    public void updateSubTask(int id, int status) {
-            epicList.get(id).setStatus(status);
-
-    }
-
-
 }

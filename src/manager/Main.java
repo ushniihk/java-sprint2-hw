@@ -8,9 +8,8 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager();
-        InMemoryHistoryManager inMemoryHistoryManager = new InMemoryHistoryManager();
-        Managers.getDefault();
+        TaskManager inMemoryTaskManager = Managers.getDefault();
+        HistoryManager inMemoryHistoryManager = Managers.getDefaultHistory();
         while (true) {
             System.out.println("Что бы вы хотели сделать?\n" +
                     "1.Получить список всех задач\n" +
@@ -136,15 +135,13 @@ public class Main {
                                         epic.getSubTaskList().get(taskNumber).setStatus(status);
                                         inMemoryTaskManager.changeStatus(epic.getId());
                                     } else System.out.println("ошибочка");
-                                } break;
+                                }
+                                break;
                             }
-                        }
-
-                      else if (inMemoryTaskManager.getEpicList().containsKey(taskNumber)) {
-                          System.out.println("для эпика нельзя менять статус");
-                          break;
-                      }
-                      else if (inMemoryTaskManager.getTaskList().containsKey(taskNumber)) {
+                        } else if (inMemoryTaskManager.getEpicList().containsKey(taskNumber)) {
+                            System.out.println("для эпика нельзя менять статус");
+                            break;
+                        } else if (inMemoryTaskManager.getTaskList().containsKey(taskNumber)) {
                             System.out.println("укажите статус задачи\n" +
                                     "1 - новая\n" +
                                     "2 - в процессе\n" +
