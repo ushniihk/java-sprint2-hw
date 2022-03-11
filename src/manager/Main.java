@@ -9,7 +9,6 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         TaskManager inMemoryTaskManager = Managers.getDefault();
-        //    HistoryManager inMemoryHistoryManager = Managers.getDefaultHistory();
         while (true) {
             System.out.println("Что бы вы хотели сделать?\n" +
                     "1.Получить список всех задач\n" +
@@ -55,7 +54,6 @@ public class Main {
                         if (inMemoryTaskManager.getTaskList().containsKey(id)) {
                             System.out.println(inMemoryTaskManager.findTask(id).toString());
                             inMemoryTaskManager.add(inMemoryTaskManager.getTaskList().get(id));
-                            //     inMemoryHistoryManager.add(inMemoryTaskManager.getTaskList().get(id));
                             break;
                         }
                         if (inMemoryTaskManager.getEpicList().containsKey(id)) {
