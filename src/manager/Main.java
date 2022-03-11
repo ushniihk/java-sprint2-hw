@@ -172,7 +172,7 @@ public class Main {
                     }
                     break;
                 case "7":
-                    System.out.println(inMemoryHistoryManager.getHistory());
+                    System.out.println(inMemoryTaskManager.history());
                     break;
                 case "8":
                     System.exit(8);

@@ -5,6 +5,7 @@ import tasks.tasks.Subtask;
 import tasks.tasks.Task;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class InMemoryTaskManager implements TaskManager {
     private int counter = 0;
@@ -105,6 +106,12 @@ public class InMemoryTaskManager implements TaskManager {
             taskList.get(id).setStatus(status);
             System.out.println("готово");
         } else System.out.println("нет такой задачи");
+    }
+
+    @Override
+    public List<Task> history() {
+        HistoryManager historyManager = new InMemoryHistoryManager();
+        return historyManager.getHistory();
     }
 
 }
