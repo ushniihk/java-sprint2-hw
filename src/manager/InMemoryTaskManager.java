@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 
 public class InMemoryTaskManager implements TaskManager {
+    private HistoryManager inMemoryHistoryManager = Managers.getDefaultHistory();
+
     private int counter = 0;
     private HashMap<Integer, Task> taskList = new HashMap<>();
     private HashMap<Integer, Epic> epicList = new HashMap<>();
@@ -110,8 +112,11 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public List<Task> history() {
-        HistoryManager historyManager = new InMemoryHistoryManager();
-        return historyManager.getHistory();
+        return inMemoryHistoryManager.getHistory();
+    }
+
+    public void add(Task task) {
+        inMemoryHistoryManager.add(task);
     }
 
 }

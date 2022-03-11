@@ -48,5 +48,7 @@ public interface TaskManager {
 
     List<Task> history();
 
+    void add(Task task);
+
 
 }

@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         TaskManager inMemoryTaskManager = Managers.getDefault();
-        HistoryManager inMemoryHistoryManager = Managers.getDefaultHistory();
+        //    HistoryManager inMemoryHistoryManager = Managers.getDefaultHistory();
         while (true) {
             System.out.println("Что бы вы хотели сделать?\n" +
                     "1.Получить список всех задач\n" +
@@ -54,12 +54,13 @@ public class Main {
                         int id = Integer.parseInt(scanner.nextLine());
                         if (inMemoryTaskManager.getTaskList().containsKey(id)) {
                             System.out.println(inMemoryTaskManager.findTask(id).toString());
-                            inMemoryHistoryManager.add(inMemoryTaskManager.getTaskList().get(id));
+                            inMemoryTaskManager.add(inMemoryTaskManager.getTaskList().get(id));
+                            //     inMemoryHistoryManager.add(inMemoryTaskManager.getTaskList().get(id));
                             break;
                         }
                         if (inMemoryTaskManager.getEpicList().containsKey(id)) {
                             System.out.println(inMemoryTaskManager.findEpic(id).toString());
-                            inMemoryHistoryManager.add(inMemoryTaskManager.getEpicList().get(id));
+                            inMemoryTaskManager.add(inMemoryTaskManager.getEpicList().get(id));
                             break;
                         }
                         boolean answer = false;
@@ -70,7 +71,7 @@ public class Main {
                             for (Epic epic : inMemoryTaskManager.getEpicList().values()) {
                                 if (epic.getSubTaskList().containsKey(id))
                                     System.out.println(epic.getSubTaskList().get(id).toString());
-                                inMemoryHistoryManager.add(epic.getSubTaskList().get(id));
+                                inMemoryTaskManager.add(epic.getSubTaskList().get(id));
                             }
                         } else System.out.println("нет такой задачи(");
                         break;
