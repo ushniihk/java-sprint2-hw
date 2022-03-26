@@ -5,8 +5,8 @@ import tasks.tasks.Epic;
 import tasks.tasks.Subtask;
 import tasks.tasks.Task;
 
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 
 public interface TaskManager {
 
@@ -46,7 +46,7 @@ public interface TaskManager {
 
     void updateTask(int id, int status);
 
-    List<Task> history();
+    Collection<Task> history();
 
     void add(Task task);
 

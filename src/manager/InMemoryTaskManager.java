@@ -4,8 +4,8 @@ import tasks.tasks.Epic;
 import tasks.tasks.Subtask;
 import tasks.tasks.Task;
 
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 
 public class InMemoryTaskManager implements TaskManager {
     private HistoryManager inMemoryHistoryManager = Managers.getDefaultHistory();
@@ -111,7 +111,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public List<Task> history() {
+    public Collection<Task> history() {
         return inMemoryHistoryManager.getHistory();
     }
 

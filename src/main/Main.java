@@ -1,5 +1,7 @@
-package tasks.manager;
+package tasks.main;
 
+import tasks.manager.Managers;
+import tasks.manager.TaskManager;
 import tasks.tasks.Epic;
 import tasks.tasks.Subtask;
 

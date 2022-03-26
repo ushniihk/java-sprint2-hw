@@ -16,7 +16,7 @@ public class InMemoryHistoryManager implements HistoryManager {
     }
 
     @Override
-    public List<Task> getHistory() {
+    public Collection<Task> getHistory() {
         return getTasks();
     }
 
@@ -64,8 +64,8 @@ public class InMemoryHistoryManager implements HistoryManager {
         historyTasks.remove(id);
     }
 
-    public ArrayList<Task> getTasks() {
-        ArrayList<Task> tasksHistory = new ArrayList<>();
+    public Collection<Task> getTasks() {
+        Collection<Task> tasksHistory = new ArrayList<>();
         if (head != null) {
             Node first = head;
             while (first != null) {

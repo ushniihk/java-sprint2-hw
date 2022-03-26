@@ -1,6 +1,6 @@
 package tasks.manager;
 
-class Managers {
+public class Managers {
     private Managers() {
     }
 
