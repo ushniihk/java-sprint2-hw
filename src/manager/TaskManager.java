@@ -26,7 +26,7 @@ public interface TaskManager {
 
     void addNewEpic(Epic epic);
 
-    Epic createNewEpic(String name);
+    Epic createNewEpic(String name, String description);
 
     void changeStatus(Integer id);
 
@@ -51,4 +51,7 @@ public interface TaskManager {
     void add(Task task);
 
 
+    void setTaskList(HashMap<Integer, Task> taskList);
+
+    void setEpicList(HashMap<Integer, Epic> taskList);
 }

@@ -1,11 +1,20 @@
 package tasks.tasks;
 
 public class Subtask extends Task {
-    private String name;
-    private String description;
+    private final String name;
+    private final String description;
     private Status status = Status.NEW;
-    private int epicID;
-    private Integer id;
+    private final int epicID;
+    private final Integer id;
+    private final TypeOfTask typeOfTask = TypeOfTask.SUBTASK;
+
+    public Subtask(String name, String description, Status status, int epicID, int id) {
+        this.name = name;
+        this.description = description;
+        this.status = status;
+        this.epicID = epicID;
+        this.id = id;
+    }
 
     public Subtask(String name, String description, int epicID, int id) {
         this.name = name;
@@ -44,5 +53,9 @@ public class Subtask extends Task {
                 ", Номер Эпика ='" + epicID + '\'' +
                 ", ID ='" + id + '\'' +
                 '}';
+    }
+    @Override
+    public String forSaving(){
+        return id + "," + typeOfTask + "," + name + "," + status + "," + description + "," + epicID + "\n";
     }
 }

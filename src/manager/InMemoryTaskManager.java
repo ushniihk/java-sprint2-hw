@@ -14,6 +14,14 @@ public class InMemoryTaskManager implements TaskManager {
     private HashMap<Integer, Task> taskList = new HashMap<>();
     private HashMap<Integer, Epic> epicList = new HashMap<>();
 
+    public void setTaskList(HashMap<Integer, Task> taskList) {
+        this.taskList = taskList;
+    }
+
+    public void setEpicList(HashMap<Integer, Epic> epicList) {
+        this.epicList = epicList;
+    }
+
     @Override
     public int getCounter() {
         return counter;
@@ -50,9 +58,8 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public Epic createNewEpic(String name) {
-        Epic epic = new Epic(name, counter++);
-        return epic;
+    public Epic createNewEpic(String name, String description) {
+        return new Epic(name, counter++, description);
     }
 
     @Override
@@ -62,8 +69,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Subtask createNewSubTask(String name, String description, int epicID) {
-        Subtask subtask = new Subtask(name, description, epicID, counter++);
-        return subtask;
+        return new Subtask(name, description, epicID, counter++);
     }
 
     @Override
@@ -73,8 +79,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Task createNewTask(String name, String description) {
-        Task task = new Task(name, description, counter++);
-        return task;
+        return new Task(name, description, counter++);
     }
 
     @Override

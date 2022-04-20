@@ -1,16 +1,19 @@
 package tasks.main;
 
-import tasks.manager.Managers;
-import tasks.manager.TaskManager;
+import tasks.manager.FileBackedTasksManager;
+
 import tasks.tasks.Epic;
 import tasks.tasks.Subtask;
+
+import java.io.File;
 
 import java.util.HashMap;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        TaskManager inMemoryTaskManager = Managers.getDefault();
+        File file = new File("saving.csv");
+        FileBackedTasksManager fileBackedTasksManager = FileBackedTasksManager.loadFromFile(file);
         while (true) {
             System.out.println("Что бы вы хотели сделать?\n" +
                     "1.Получить список всех задач\n" +
@@ -32,17 +35,17 @@ public class Main {
                                 "3.Подзадача");
                         input = scanner.nextLine();
                         if (input.equals("1")) {
-                            System.out.println(inMemoryTaskManager.returnTaskList());
+                            System.out.println(fileBackedTasksManager.returnTaskList());
                             break;
                         } else if (input.equals("2")) {
-                            System.out.println(inMemoryTaskManager.returnEpicList());
+                            System.out.println(fileBackedTasksManager.returnEpicList());
                             break;
                         } else if (input.equals("3")) {
                             System.out.println("введите номер Эпика для которого хотите посмотреть список подзадач");
                             if (scanner.hasNextInt()) {
                                 int id = Integer.parseInt(scanner.nextLine());
-                                if (inMemoryTaskManager.getEpicList().containsKey(id)) {
-                                    System.out.println(inMemoryTaskManager.returnSubTaskList(id));
+                                if (fileBackedTasksManager.getEpicList().containsKey(id)) {
+                                    System.out.println(fileBackedTasksManager.returnSubTaskList(id));
                                 } else System.out.println("нет такой подзадачи");
                             } else System.out.println("ошибочка");
                             break;
@@ -53,25 +56,25 @@ public class Main {
                     System.out.println("Введите номер задачи которую хотите найти");
                     if (scanner.hasNextInt()) {
                         int id = Integer.parseInt(scanner.nextLine());
-                        if (inMemoryTaskManager.getTaskList().containsKey(id)) {
-                            System.out.println(inMemoryTaskManager.findTask(id).toString());
-                            inMemoryTaskManager.add(inMemoryTaskManager.getTaskList().get(id));
+                        if (fileBackedTasksManager.getTaskList().containsKey(id)) {
+                            System.out.println(fileBackedTasksManager.findTask(id).toString());
+                            fileBackedTasksManager.add(fileBackedTasksManager.getTaskList().get(id));
                             break;
                         }
-                        if (inMemoryTaskManager.getEpicList().containsKey(id)) {
-                            System.out.println(inMemoryTaskManager.findEpic(id).toString());
-                            inMemoryTaskManager.add(inMemoryTaskManager.getEpicList().get(id));
+                        if (fileBackedTasksManager.getEpicList().containsKey(id)) {
+                            System.out.println(fileBackedTasksManager.findEpic(id).toString());
+                            fileBackedTasksManager.add(fileBackedTasksManager.getEpicList().get(id));
                             break;
                         }
                         boolean answer = false;
-                        for (Epic epic : inMemoryTaskManager.getEpicList().values()) {
+                        for (Epic epic : fileBackedTasksManager.getEpicList().values()) {
                             if (epic.getSubTaskList().containsKey(id)) answer = true;
                         }
                         if (answer) {
-                            for (Epic epic : inMemoryTaskManager.getEpicList().values()) {
+                            for (Epic epic : fileBackedTasksManager.getEpicList().values()) {
                                 if (epic.getSubTaskList().containsKey(id))
                                     System.out.println(epic.getSubTaskList().get(id).toString());
-                                inMemoryTaskManager.add(epic.getSubTaskList().get(id));
+                                fileBackedTasksManager.add(epic.getSubTaskList().get(id));
                             }
                         } else System.out.println("нет такой задачи(");
                         break;
@@ -88,13 +91,15 @@ public class Main {
                             String name = scanner.nextLine();
                             System.out.println("Теперь описание");
                             String description = scanner.nextLine();
-                            inMemoryTaskManager.addNewTask(inMemoryTaskManager.createNewTask(name, description));
+                            fileBackedTasksManager.addNewTask(fileBackedTasksManager.createNewTask(name, description));
                             break;
                         } else if (input.equals("2")) {
                             System.out.println("Введите название");
                             String name = scanner.nextLine();
-                            Epic epic = inMemoryTaskManager.createNewEpic(name);
-                            inMemoryTaskManager.addNewEpic(epic);
+                            System.out.println("Теперь описание");
+                            String description = scanner.nextLine();
+                            Epic epic = fileBackedTasksManager.createNewEpic(name, description);
+                            fileBackedTasksManager.addNewEpic(epic);
                             System.out.println("теперь добавьте подзадачи\n" +
                                     "Сколько подзадач будет?");
                             if (scanner.hasNextInt()) {
@@ -105,11 +110,12 @@ public class Main {
                                     String nameSubTask = scanner.nextLine();
                                     System.out.println("Теперь описание");
                                     String descriptionSubTask = scanner.nextLine();
-                                    Subtask s = inMemoryTaskManager.createNewSubTask(nameSubTask, descriptionSubTask,
-                                            inMemoryTaskManager.getCounter() - 1 - i);
+                                    Subtask s = fileBackedTasksManager.createNewSubTask(nameSubTask, descriptionSubTask,
+                                            fileBackedTasksManager.getCounter() - 1 - i);
                                     subtaskHashMap.put(s.getId(), s);
                                 }
                                 epic.setSubTaskList(subtaskHashMap);
+                                fileBackedTasksManager.save();
                                 break;
                             } else System.out.println("ошибочка");
                             break;
@@ -121,11 +127,11 @@ public class Main {
                     if (scanner.hasNextInt()) {
                         int taskNumber = Integer.parseInt(scanner.nextLine());
                         boolean answer = false;
-                        for (Epic epic : inMemoryTaskManager.getEpicList().values()) {
+                        for (Epic epic : fileBackedTasksManager.getEpicList().values()) {
                             if (epic.getSubTaskList().containsKey(taskNumber)) answer = true;
                         }
                         if (answer) {
-                            for (Epic epic : inMemoryTaskManager.getEpicList().values()) {
+                            for (Epic epic : fileBackedTasksManager.getEpicList().values()) {
                                 if (epic.getSubTaskList().containsKey(taskNumber)) {
                                     System.out.println("укажите статус задачи\n" +
                                             "1 - новая\n" +
@@ -134,22 +140,22 @@ public class Main {
                                     if (scanner.hasNextInt()) {
                                         int status = Integer.parseInt(scanner.nextLine());
                                         epic.getSubTaskList().get(taskNumber).setStatus(status);
-                                        inMemoryTaskManager.changeStatus(epic.getId());
+                                        fileBackedTasksManager.changeStatus(epic.getId());
                                     } else System.out.println("ошибочка");
                                 }
                                 break;
                             }
-                        } else if (inMemoryTaskManager.getEpicList().containsKey(taskNumber)) {
+                        } else if (fileBackedTasksManager.getEpicList().containsKey(taskNumber)) {
                             System.out.println("для эпика нельзя менять статус");
                             break;
-                        } else if (inMemoryTaskManager.getTaskList().containsKey(taskNumber)) {
+                        } else if (fileBackedTasksManager.getTaskList().containsKey(taskNumber)) {
                             System.out.println("укажите статус задачи\n" +
                                     "1 - новая\n" +
                                     "2 - в процессе\n" +
                                     "3 - выполнена");
                             if (scanner.hasNextInt()) {
                                 int status = Integer.parseInt(scanner.nextLine());
-                                inMemoryTaskManager.updateTask(taskNumber, status);
+                                fileBackedTasksManager.updateTask(taskNumber, status);
                             } else System.out.println("ошибочка");
                             break;
                         } else System.out.println("Нет такой задачи");
@@ -159,7 +165,7 @@ public class Main {
                     System.out.println("Введите номер задачи которую вы хотели бы удалить");
                     if (scanner.hasNextInt()) {
                         int taskNumber = Integer.parseInt(scanner.nextLine());
-                        inMemoryTaskManager.deleteTask(taskNumber);
+                        fileBackedTasksManager.deleteTask(taskNumber);
                         break;
                     }
                     System.out.println("ошибочка");
@@ -169,11 +175,11 @@ public class Main {
                             "если всё же уверены то нажмите '0'");
                     String input0 = scanner.nextLine();
                     if (input0.equals("0")) {
-                        inMemoryTaskManager.deleteAllTasks();
+                        fileBackedTasksManager.deleteAllTasks();
                     }
                     break;
                 case "7":
-                    System.out.println(inMemoryTaskManager.history());
+                    System.out.println(fileBackedTasksManager.history());
                     break;
                 case "8":
                     System.exit(8);
