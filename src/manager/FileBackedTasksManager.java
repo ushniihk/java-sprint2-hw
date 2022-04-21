@@ -13,8 +13,8 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     private HistoryManager inMemoryHistoryManager = Managers.getDefaultHistory();
     File file;
     private int counter = 0;
-    private HashMap<Integer, Task> taskList = new HashMap<>();
-    private HashMap<Integer, Epic> epicList = new HashMap<>();
+    private Map<Integer, Task> taskList = new HashMap<>();
+    private Map<Integer, Epic> epicList = new HashMap<>();
 
     public FileBackedTasksManager(File file) {
         this.file = file;
@@ -33,11 +33,8 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
             for (Task t : history()) {
                 fileWriter.write(t.getId() + ",");
             }
-            throw new ManagerSaveException("something was wrong");
-        } catch (ManagerSaveException e) {
-            e.getMessage();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new ManagerSaveException("something was wrong");
         }
     }
 
@@ -139,18 +136,18 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                 }
             }
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            throw new ManagerSaveException("something was wrong");
         }
         return taskManager;
     }
 
     @Override
-    public HashMap<Integer, Task> returnTaskList() {
+    public Map<Integer, Task> returnTaskList() {
         return taskList;
     }
 
     @Override
-    public HashMap<Integer, Epic> returnEpicList() {
+    public Map<Integer, Epic> returnEpicList() {
         return epicList;
     }
 
@@ -220,12 +217,12 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     }
 
     @Override
-    public HashMap<Integer, Task> getTaskList() {
+    public Map<Integer, Task> getTaskList() {
         return taskList;
     }
 
     @Override
-    public HashMap<Integer, Epic> getEpicList() {
+    public Map<Integer, Epic> getEpicList() {
         return epicList;
     }
 

@@ -6,6 +6,7 @@ import tasks.tasks.Task;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Map;
 
 public class InMemoryTaskManager implements TaskManager {
     private HistoryManager inMemoryHistoryManager = Managers.getDefaultHistory();
@@ -28,22 +29,22 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public HashMap<Integer, Task> getTaskList() {
+    public Map<Integer, Task> getTaskList() {
         return taskList;
     }
 
     @Override
-    public HashMap<Integer, Epic> getEpicList() {
+    public Map<Integer, Epic> getEpicList() {
         return epicList;
     }
 
     @Override
-    public HashMap<Integer, Task> returnTaskList() {
+    public Map<Integer, Task> returnTaskList() {
         return taskList;
     }
 
     @Override
-    public HashMap<Integer, Epic> returnEpicList() {
+    public Map<Integer, Epic> returnEpicList() {
         return epicList;
     }
 

@@ -7,19 +7,20 @@ import tasks.tasks.Task;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Map;
 
 public interface TaskManager {
 
 
     int getCounter();
 
-    HashMap<Integer, Task> getTaskList();
+    Map<Integer, Task> getTaskList();
 
-    HashMap<Integer, Epic> getEpicList();
+    Map<Integer, Epic> getEpicList();
 
-    HashMap<Integer, Task> returnTaskList();
+    Map<Integer, Task> returnTaskList();
 
-    HashMap<Integer, Epic> returnEpicList();
+    Map<Integer, Epic> returnEpicList();
 
     HashMap<Integer, Subtask> returnSubTaskList(int id);
 
