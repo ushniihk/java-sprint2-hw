@@ -66,7 +66,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         Status status = Status.valueOf(arr[3]);
         String description = arr[4];
         int epicId = Integer.parseInt(arr[5]);
-        return new Subtask(name, description, status, id, epicId);
+        return new Subtask(name, description, status, epicId, id);
     }
 
     static List<Integer> listFromString(String value) {
