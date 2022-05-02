@@ -123,7 +123,7 @@ abstract class TaskManagerTest<T extends TaskManager> {
     }
 
     @Test
-    public void shouldReturnSortedTasks(){
+    public void shouldReturnSortedTasks() {
         Task task = taskManager.createNewTask("Task1", "to do", "11.11.2022. 11:11", "1 0 0");
         taskManager.addNewTask(task);
         Epic epic = taskManager.createNewEpic("first epic", "to do something");
@@ -132,7 +132,7 @@ abstract class TaskManagerTest<T extends TaskManager> {
         taskManager.addNewEpic(epic1);
         Subtask subtask = taskManager.createNewSubTask("one", "to do", 2, "05.05.2022. 11:11", "1 0 0");
         epic1.putSubtaskList(subtask);
-        TreeSet<Task> set = taskManager.getPrioritizedTasks();
+        TreeSet<Task> set = (TreeSet<Task>) taskManager.getPrioritizedTasks();
         assertEquals(set.first(), subtask);
         assertEquals(set.last(), epic);
     }

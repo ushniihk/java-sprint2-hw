@@ -15,7 +15,7 @@ public class InMemoryTaskManager implements TaskManager {
     private int counter = 0;
     private HashMap<Integer, Task> taskList = new HashMap<>();
     private HashMap<Integer, Epic> epicList = new HashMap<>();
-    private TreeSet<Task> prioritizedTasks = new TreeSet<>();
+    private Collection<Task> prioritizedTasks = new TreeSet<>();
 
 
     @Override
@@ -144,7 +144,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public TreeSet<Task> getPrioritizedTasks() {
+    public Collection<Task> getPrioritizedTasks() {
         return prioritizedTasks;
     }
 

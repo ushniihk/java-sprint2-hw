@@ -20,14 +20,13 @@ class FileBackedTasksManagerTest extends TaskManagerTest<InMemoryTaskManager> {
         manager.add(epic);
         manager.save();
         FileBackedTasksManager manager1 = FileBackedTasksManager.loadFromFile(file);
-        assertTrue(manager1.history().contains(epic));
-        assertEquals(manager1.history().size(), manager1.getCounter());
-        assertTrue(manager1.getEpicList().containsValue(epic));
-        assertEquals(manager1.getEpicList().size(), manager1.getCounter());
-        assertTrue(manager1.getTaskList().isEmpty());
-        assertTrue(manager1.getEpicList().get(0).getSubTaskList().isEmpty());
-
+        assertAll(
+                () -> assertTrue(manager1.history().contains(epic)),
+                () -> assertEquals(manager1.history().size(), manager1.getCounter()),
+                () -> assertTrue(manager1.getEpicList().containsValue(epic)),
+                () -> assertEquals(manager1.getEpicList().size(), manager1.getCounter()),
+                () -> assertTrue(manager1.getTaskList().isEmpty()),
+                () -> assertTrue(manager1.getEpicList().get(0).getSubTaskList().isEmpty())
+        );
     }
-
-
 }

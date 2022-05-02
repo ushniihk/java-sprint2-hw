@@ -8,7 +8,6 @@ import tasks.tasks.Task;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.TreeSet;
 
 public interface TaskManager {
 
@@ -52,7 +51,7 @@ public interface TaskManager {
 
     void add(Task task);
 
-    TreeSet getPrioritizedTasks();
+    Collection getPrioritizedTasks();
 
     void addToPrioritizedTasks(Task task);
 

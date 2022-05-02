@@ -30,7 +30,7 @@ class InMemoryHistoryManagerTest {
         inMemoryHistoryManager.add(task2);
         int counter = 0;
         int i = 0;
-        for (Task t: inMemoryHistoryManager.getHistory()) {
+        for (Task t : inMemoryHistoryManager.getHistory()) {
             if (t.equals(task))
                 i = counter;
             counter++;
@@ -40,7 +40,7 @@ class InMemoryHistoryManagerTest {
         inMemoryHistoryManager.add(task);
         counter = 0;
         i = 0;
-        for (Task t: inMemoryHistoryManager.getHistory()) {
+        for (Task t : inMemoryHistoryManager.getHistory()) {
             if (t.equals(task))
                 i = counter;
             counter++;
@@ -48,6 +48,7 @@ class InMemoryHistoryManagerTest {
         assertEquals(i, 1);
         assertEquals(inMemoryHistoryManager.getHistory().size(), 2);
     }
+
     @Test
     public void shouldRemoveDuplicateInMiddleHistory() {
         Task task = new Task("name1", "description1", 0, "11.11.2022. 11:11", "1 0 0");
@@ -58,7 +59,7 @@ class InMemoryHistoryManagerTest {
         inMemoryHistoryManager.add(task3);
         int counter = 0;
         int i = 0;
-        for (Task t: inMemoryHistoryManager.getHistory()) {
+        for (Task t : inMemoryHistoryManager.getHistory()) {
             if (t.equals(task2))
                 i = counter;
             counter++;
@@ -68,7 +69,7 @@ class InMemoryHistoryManagerTest {
         inMemoryHistoryManager.add(task2);
         counter = 0;
         i = 0;
-        for (Task t: inMemoryHistoryManager.getHistory()) {
+        for (Task t : inMemoryHistoryManager.getHistory()) {
             if (t.equals(task2))
                 i = counter;
             counter++;
@@ -78,9 +79,9 @@ class InMemoryHistoryManagerTest {
     }
 
     @Test
-    public void removeFromBeginning(){
+    public void removeFromBeginning() {
         Task task = new Task("name1", "description1", 0, "11.11.2022. 11:11", "1 0 0");
-        Task task2 = new Task("name2", "description2", 1,"11.11.2022. 11:11", "1 0 0");
+        Task task2 = new Task("name2", "description2", 1, "11.11.2022. 11:11", "1 0 0");
         Task task3 = new Task("name3", "description3", 2, "11.11.2022. 11:11", "1 0 0");
         inMemoryHistoryManager.add(task);
         inMemoryHistoryManager.add(task2);
@@ -91,7 +92,7 @@ class InMemoryHistoryManagerTest {
     }
 
     @Test
-    public void removeFromMiddle(){
+    public void removeFromMiddle() {
         Task task = new Task("name1", "description1", 0, "11.11.2022. 11:11", "1 0 0");
         Task task2 = new Task("name2", "description2", 1, "11.11.2022. 11:11", "1 0 0");
         Task task3 = new Task("name3", "description3", 2, "11.11.2022. 11:11", "1 0 0");
@@ -103,9 +104,9 @@ class InMemoryHistoryManagerTest {
     }
 
     @Test
-    public void removeFromEnd(){
+    public void removeFromEnd() {
         Task task = new Task("name1", "description1", 0, "11.11.2022. 11:11", "1 0 0");
-        Task task2 = new Task("name2", "description2", 1,"11.11.2022. 11:11", "1 0 0");
+        Task task2 = new Task("name2", "description2", 1, "11.11.2022. 11:11", "1 0 0");
         Task task3 = new Task("name3", "description3", 2, "11.11.2022. 11:11", "1 0 0");
         inMemoryHistoryManager.add(task);
         inMemoryHistoryManager.add(task2);

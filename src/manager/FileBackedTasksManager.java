@@ -4,7 +4,6 @@ import tasks.Exceptions.ManagerSaveException;
 import tasks.tasks.*;
 
 import java.io.*;
-import java.time.LocalDateTime;
 import java.util.*;
 
 
@@ -15,7 +14,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     private int counter = 0;
     private Map<Integer, Task> taskList = new HashMap<>();
     private Map<Integer, Epic> epicList = new HashMap<>();
-    private TreeSet<Task> prioritizedTasks = new TreeSet<>();
+    private Collection<Task> prioritizedTasks = new TreeSet<>();
 
     public FileBackedTasksManager(File file) {
         this.file = file;
@@ -280,7 +279,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     }
 
     @Override
-    public TreeSet<Task> getPrioritizedTasks() {
+    public Collection<Task> getPrioritizedTasks() {
         return prioritizedTasks;
     }
 
