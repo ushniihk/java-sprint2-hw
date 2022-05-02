@@ -4,8 +4,8 @@ import tasks.Exceptions.ManagerSaveException;
 import tasks.tasks.*;
 
 import java.io.*;
+import java.time.LocalDateTime;
 import java.util.*;
-
 
 
 public class FileBackedTasksManager extends InMemoryTaskManager {
@@ -15,6 +15,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     private int counter = 0;
     private Map<Integer, Task> taskList = new HashMap<>();
     private Map<Integer, Epic> epicList = new HashMap<>();
+    private TreeSet<Task> prioritizedTasks = new TreeSet<>();
 
     public FileBackedTasksManager(File file) {
         this.file = file;
@@ -38,17 +39,19 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         }
     }
 
-    public static Task taskFromString(String value) {
+    private static Task taskFromString(String value) {
         String[] arr;
         arr = value.split(",");
         Integer id = Integer.parseInt(arr[0]);
         String name = arr[2];
         Status status = Status.valueOf(arr[3]);
         String description = arr[4];
-        return new Task(name, description, status, id);
+        String startTime = arr[5];
+        String duration = arr[6];
+        return new Task(name, description, status, id, startTime, duration);
     }
 
-    public static Epic epicFromString(String value) {
+    private static Epic epicFromString(String value) {
         String[] arr;
         arr = value.split(",");
         int id = Integer.parseInt(arr[0]);
@@ -58,7 +61,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         return new Epic(name, description, status, id);
     }
 
-    public static Subtask subTaskFromString(String value) {
+    private static Subtask subTaskFromString(String value) {
         String[] arr;
         arr = value.split(",");
         Integer id = Integer.parseInt(arr[0]);
@@ -66,10 +69,12 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         Status status = Status.valueOf(arr[3]);
         String description = arr[4];
         int epicId = Integer.parseInt(arr[5]);
-        return new Subtask(name, description, status, epicId, id);
+        String startTime = arr[6];
+        String duration = arr[7];
+        return new Subtask(name, description, status, epicId, id, startTime, duration);
     }
 
-    static List<Integer> listFromString(String value) {
+    private static List<Integer> listFromString(String value) {
         String[] arr = value.split(",");
         Integer[] arrIntegers = new Integer[arr.length];
         for (int i = 0; i < arr.length; i++) {
@@ -130,7 +135,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                     if (answer) {
                         for (Epic epic : taskManager.getEpicList().values()) {
                             if (epic.getSubTaskList().containsKey(id))
-                            taskManager.add(epic.getSubTaskList().get(id));
+                                taskManager.add(epic.getSubTaskList().get(id));
                         }
                     }
                 }
@@ -174,15 +179,10 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     }
 
     @Override
-    public void addNewTask(Task task) {
-        taskList.put(task.getId(), task);
-        save();
-    }
-
-    @Override
     public void deleteAllTasks() {
         taskList.clear();
         epicList.clear();
+        prioritizedTasks.clear();
         save();
     }
 
@@ -198,16 +198,6 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     @Override
     public void add(Task task) {
         inMemoryHistoryManager.add(task);
-        save();
-    }
-
-    public void setTaskList(HashMap<Integer, Task> taskList) {
-        this.taskList = taskList;
-        save();
-    }
-
-    public void setEpicList(HashMap<Integer, Epic> epicList) {
-        this.epicList = epicList;
         save();
     }
 
@@ -229,19 +219,45 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
     @Override
     public Epic createNewEpic(String name, String description) {
-        return new Epic(name, counter++, description);
+        Epic epic = new Epic(name, counter++, description);
+        addToPrioritizedTasks(epic);
+        return epic;
     }
 
 
     @Override
-    public Subtask createNewSubTask(String name, String description, int epicID) {
-        return new Subtask(name, description, epicID, counter++);
+    public Subtask createNewSubTask(String name, String description, int epicID, String startTime, String duration) {
+        Subtask s = new Subtask(name, description, epicID, counter++, startTime, duration);
+        if (!prioritizedTasks.isEmpty()) {
+            for (Task t : prioritizedTasks) {
+                if (((t.getEndTime().isAfter(s.getStartTime()) || t.getEndTime().isEqual(s.getStartTime())))
+                        && t.getEndTime().isBefore(s.getEndTime()))
+                    return null;
+            }
+        }
+        addToPrioritizedTasks(s);
+        return s;
     }
 
+    @Override
+    public void addNewTask(Task task) {
+        if (task != null) {
+            taskList.put(task.getId(), task);
+        } else System.out.println("не получилось добавить задачу, на это время уже есть делишки");
+    }
 
     @Override
-    public Task createNewTask(String name, String description) {
-        return new Task(name, description, counter++);
+    public Task createNewTask(String name, String description, String startTime, String duration) {
+        Task task = new Task(name, description, counter++, startTime, duration);
+        if (!prioritizedTasks.isEmpty()) {
+            for (Task t : prioritizedTasks) {
+                if ((t.getEndTime().isAfter(task.getStartTime()) || t.getEndTime().isEqual(task.getStartTime()))
+                        && t.getEndTime().isBefore(task.getEndTime()))
+                    return null;
+            }
+        }
+        addToPrioritizedTasks(task);
+        return task;
     }
 
     @Override
@@ -263,4 +279,13 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         return epicList.get(id);
     }
 
+    @Override
+    public TreeSet<Task> getPrioritizedTasks() {
+        return prioritizedTasks;
+    }
+
+    @Override
+    public void addToPrioritizedTasks(Task task) {
+        prioritizedTasks.add(task);
+    }
 }

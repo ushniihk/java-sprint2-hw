@@ -23,7 +23,8 @@ public class Main {
                     "5.Удалить задачу\n" +
                     "6.Очистить список задач\n" +
                     "7.Показать историю поиска задач\n" +
-                    "8.Выход");
+                    "8.Список всех задач по времени\n" +
+                    "9.Выход");
             Scanner scanner = new Scanner(System.in);
             String input = scanner.nextLine();
             switch (input) {
@@ -91,7 +92,14 @@ public class Main {
                             String name = scanner.nextLine();
                             System.out.println("Теперь описание");
                             String description = scanner.nextLine();
-                            fileBackedTasksManager.addNewTask(fileBackedTasksManager.createNewTask(name, description));
+                            System.out.println("Когда начнем?");
+                            System.out.println("Формат записи: dd.MM.yyyy. HH:mm");
+                            String startTime = scanner.nextLine();
+                            System.out.println("Сколько времени на всё про всё");
+                            System.out.println("Формат записи: d H m");
+                            String duration = scanner.nextLine();
+                            fileBackedTasksManager.addNewTask(fileBackedTasksManager
+                                    .createNewTask(name, description, startTime, duration));
                             break;
                         } else if (input.equals("2")) {
                             System.out.println("Введите название");
@@ -110,8 +118,14 @@ public class Main {
                                     String nameSubTask = scanner.nextLine();
                                     System.out.println("Теперь описание");
                                     String descriptionSubTask = scanner.nextLine();
+                                    System.out.println("Когда начнем?");
+                                    System.out.println("Формат записи: dd.MM.yyyy. HH:mm");
+                                    String startTime = scanner.nextLine();
+                                    System.out.println("Сколько времени на всё про всё");
+                                    System.out.println("Формат записи: d H m");
+                                    String duration = scanner.nextLine();
                                     Subtask s = fileBackedTasksManager.createNewSubTask(nameSubTask, descriptionSubTask,
-                                            fileBackedTasksManager.getCounter() - 1 - i);
+                                            fileBackedTasksManager.getCounter() - 1 - i, startTime, duration);
                                     subtaskHashMap.put(s.getId(), s);
                                 }
                                 epic.setSubTaskList(subtaskHashMap);
@@ -182,7 +196,10 @@ public class Main {
                     System.out.println(fileBackedTasksManager.history());
                     break;
                 case "8":
-                    System.exit(8);
+                    System.out.println(fileBackedTasksManager.getPrioritizedTasks());
+                    break;
+                case "9":
+                    System.exit(9);
                 default:
                     System.out.println("нет такой команды");
                     break;

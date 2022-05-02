@@ -8,6 +8,7 @@ import tasks.tasks.Task;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeSet;
 
 public interface TaskManager {
 
@@ -31,11 +32,11 @@ public interface TaskManager {
 
     void changeStatus(Integer id);
 
-    Subtask createNewSubTask(String name, String description, int epicID);
+    Subtask createNewSubTask(String name, String description, int epicID, String startTime, String duration);
 
     void addNewTask(Task task);
 
-    Task createNewTask(String name, String description);
+    Task createNewTask(String name, String description, String startTime, String duration);
 
     void deleteAllTasks();
 
@@ -51,8 +52,8 @@ public interface TaskManager {
 
     void add(Task task);
 
+    TreeSet getPrioritizedTasks();
 
-    void setTaskList(HashMap<Integer, Task> taskList);
+    void addToPrioritizedTasks(Task task);
 
-    void setEpicList(HashMap<Integer, Epic> taskList);
 }
