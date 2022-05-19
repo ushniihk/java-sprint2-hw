@@ -55,4 +55,7 @@ public interface TaskManager {
 
     void addToPrioritizedTasks(Task task);
 
+    void save();
+
+    void load();
 }

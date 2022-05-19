@@ -152,4 +152,10 @@ public class InMemoryTaskManager implements TaskManager {
     public void addToPrioritizedTasks(Task task) {
         prioritizedTasks.add(task);
     }
+
+    @Override
+    public void load(){}
+
+    @Override
+    public void save(){}
 }

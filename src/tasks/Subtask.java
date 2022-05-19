@@ -6,24 +6,24 @@ import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public class Subtask extends Task {
-    private final String name;
-    private final String description;
-    private Status status = Status.NEW;
+    private final String subtaskName;
+    private final String subtaskDescription;
+    private Status subtaskStatus = Status.NEW;
     private final int epicID;
-    private final Integer id;
-    private final TypeOfTask typeOfTask = TypeOfTask.SUBTASK;
-    private LocalDateTime startTime;
-    private final Duration duration;
+    private final Integer subtaskId;
+    private final TypeOfTask subtaskTypeOfTask = TypeOfTask.SUBTASK;
+    private LocalDateTime subtaskStartTime;
+    private final Duration subtaskDuration;
 
     public Subtask(String name, String description, Status status, int epicID, int id, String startTime, String duration) {
-        this.name = name;
-        this.description = description;
-        this.status = status;
+        this.subtaskName = name;
+        this.subtaskDescription = description;
+        this.subtaskStatus = status;
         this.epicID = epicID;
-        this.id = id;
+        this.subtaskId = id;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy. HH:mm");
         try {
-            this.startTime = LocalDateTime.parse(startTime, formatter);
+            this.subtaskStartTime = LocalDateTime.parse(startTime, formatter);
         } catch (NumberFormatException exception) {
             exception.getMessage();
         }
@@ -36,18 +36,18 @@ public class Subtask extends Task {
         } catch (NumberFormatException exception) {
             exception.getMessage();
         }
-        this.duration = Duration.between(this.startTime, this.startTime.plusDays(arrI[0])
+        this.subtaskDuration = Duration.between(this.subtaskStartTime, this.subtaskStartTime.plusDays(arrI[0])
                 .plusHours(arrI[1]).plusMinutes(arrI[2]));
     }
 
     public Subtask(String name, String description, int epicID, int id, String startTime, String duration) {
-        this.name = name;
-        this.description = description;
+        this.subtaskName = name;
+        this.subtaskDescription = description;
         this.epicID = epicID;
-        this.id = id;
+        this.subtaskId = id;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy. HH:mm");
         try {
-            this.startTime = LocalDateTime.parse(startTime, formatter);
+            this.subtaskStartTime = LocalDateTime.parse(startTime, formatter);
         } catch (NumberFormatException exception) {
             exception.getMessage();
         }
@@ -60,7 +60,7 @@ public class Subtask extends Task {
         } catch (NumberFormatException exception) {
             exception.getMessage();
         }
-        this.duration = Duration.between(this.startTime, this.startTime.plusDays(arrI[0])
+        this.subtaskDuration = Duration.between(this.subtaskStartTime, this.subtaskStartTime.plusDays(arrI[0])
                 .plusHours(arrI[1]).plusMinutes(arrI[2]));
     }
 
@@ -70,34 +70,34 @@ public class Subtask extends Task {
 
     @Override
     public Integer getId() {
-        return id;
+        return subtaskId;
     }
 
     @Override
     public Status getStatus() {
-        return status;
+        return subtaskStatus;
     }
 
     @Override
     public LocalDateTime getStartTime() {
-        return startTime;
+        return subtaskStartTime;
     }
 
     @Override
     public Duration getDuration() {
-        return duration;
+        return subtaskDuration;
     }
 
     @Override
     public LocalDateTime getEndTime() {
-        return startTime.plus(duration);
+        return subtaskStartTime.plus(subtaskDuration);
     }
 
     public void setStatus(int status) {
         try {
-            if (status == 1) this.status = Status.NEW;
-            if (status == 2) this.status = Status.IN_PROGRESS;
-            if (status == 3) this.status = Status.DONE;
+            if (status == 1) this.subtaskStatus = Status.NEW;
+            if (status == 2) this.subtaskStatus = Status.IN_PROGRESS;
+            if (status == 3) this.subtaskStatus = Status.DONE;
             else throw new RuntimeException("status error");
         } catch (RuntimeException runtimeException) {
             runtimeException.getMessage();
@@ -106,23 +106,23 @@ public class Subtask extends Task {
 
     @Override
     public String forSaving() {
-        String dur = duration.toDays() + " " + duration.toHoursPart() + " "
-                + duration.toMinutesPart();
-        return id + "," + typeOfTask + "," + name + "," + status + "," + description + "," + epicID + ","
-                + DateTimeFormatter.ofPattern("dd.MM.yyyy. HH:mm").format(startTime) + "," + dur + "\n";
+        String dur = subtaskDuration.toDays() + " " + subtaskDuration.toHoursPart() + " "
+                + subtaskDuration.toMinutesPart();
+        return subtaskId + "," + subtaskTypeOfTask + "," + subtaskName + "," + subtaskStatus + "," + subtaskDescription + "," + epicID + ","
+                + DateTimeFormatter.ofPattern("dd.MM.yyyy. HH:mm").format(subtaskStartTime) + "," + dur + "\n";
     }
 
     @Override
     public String toString() {
         return "Subtask{" +
-                "name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", status=" + status +
+                "name='" + subtaskName + '\'' +
+                ", description='" + subtaskDescription + '\'' +
+                ", status=" + subtaskStatus +
                 ", epicID=" + epicID +
-                ", id=" + id +
-                ", typeOfTask=" + typeOfTask +
-                ", startTime=" + startTime +
-                ", duration=" + duration +
+                ", id=" + subtaskId +
+                ", typeOfTask=" + subtaskTypeOfTask +
+                ", startTime=" + subtaskStartTime +
+                ", duration=" + subtaskDuration +
                 '}';
     }
 
@@ -132,12 +132,18 @@ public class Subtask extends Task {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Subtask subtask = (Subtask) o;
-        return epicID == subtask.epicID && Objects.equals(name, subtask.name) && Objects.equals(description, subtask.description) && status == subtask.status && Objects.equals(id, subtask.id) && typeOfTask == subtask.typeOfTask && Objects.equals(startTime, subtask.startTime) && Objects.equals(duration, subtask.duration);
+        return epicID == subtask.epicID && Objects.equals(subtaskName, subtask.subtaskName)
+                && Objects.equals(subtaskDescription, subtask.subtaskDescription)
+                && subtaskStatus == subtask.subtaskStatus && Objects.equals(subtaskId, subtask.subtaskId)
+                && subtaskTypeOfTask == subtask.subtaskTypeOfTask
+                && Objects.equals(subtaskStartTime, subtask.subtaskStartTime)
+                && Objects.equals(subtaskDuration, subtask.subtaskDuration);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), name, description, status, epicID, id, typeOfTask, startTime, duration);
+        return Objects.hash(super.hashCode(), subtaskName, subtaskDescription, subtaskStatus, epicID, subtaskId,
+                subtaskTypeOfTask, subtaskStartTime, subtaskDuration);
     }
 
     @Override

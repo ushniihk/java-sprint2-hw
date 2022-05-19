@@ -82,8 +82,21 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         return Arrays.asList(arrIntegers);
     }
 
-    public static FileBackedTasksManager loadFromFile(File file) {
-        final FileBackedTasksManager taskManager = new FileBackedTasksManager(file);
+    private static FileBackedTasksManager downloadPrioritazedList(FileBackedTasksManager taskManager){
+        for (Task task: taskManager.getTaskList().values()) {
+            taskManager.addToPrioritizedTasks(task);
+        }
+        for (Epic epic: taskManager.getEpicList().values()) {
+            taskManager.addToPrioritizedTasks(epic);
+            for (Subtask subtask: epic.getSubTaskList().values()) {
+                taskManager.addToPrioritizedTasks(subtask);
+            }
+        }
+        return taskManager;
+    }
+
+    public static FileBackedTasksManager load(File file) {
+        FileBackedTasksManager taskManager = new FileBackedTasksManager(file);
         List<Integer> listOfId = new ArrayList<>();
         List<Subtask> listOfSubtask = new ArrayList<>();
         try (Scanner scanner = new Scanner(file)) {
@@ -142,7 +155,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         } catch (FileNotFoundException e) {
             throw new ManagerSaveException("something was wrong");
         }
-        return taskManager;
+        return downloadPrioritazedList(taskManager);
     }
 
     @Override
@@ -169,6 +182,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     public void addNewEpic(Epic epic) {
         epicList.put(epic.getId(), epic);
         save();
+        prioritizedTasks.add(epic);
     }
 
     @Override
@@ -234,6 +248,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                     return null;
             }
         }
+        save();
         addToPrioritizedTasks(s);
         return s;
     }
@@ -243,6 +258,8 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         if (task != null) {
             taskList.put(task.getId(), task);
         } else System.out.println("не получилось добавить задачу, на это время уже есть делишки");
+        save();
+        addToPrioritizedTasks(task);
     }
 
     @Override
@@ -266,15 +283,18 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         for (Epic epic : epicList.values()) {
             epic.getSubTaskList().remove(id);
         }
+        save();
     }
 
     @Override
     public Task findTask(int id) {
+        add(taskList.get(id));
         return taskList.get(id);
     }
 
     @Override
     public Epic findEpic(int id) {
+        add(epicList.get(id));
         return epicList.get(id);
     }
 

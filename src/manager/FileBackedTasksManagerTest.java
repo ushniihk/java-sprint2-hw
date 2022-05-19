@@ -11,7 +11,7 @@ class FileBackedTasksManagerTest extends TaskManagerTest<InMemoryTaskManager> {
 
     File file = new File("savingTest.csv");
 
-    FileBackedTasksManager manager = FileBackedTasksManager.loadFromFile(file);
+    FileBackedTasksManager manager = FileBackedTasksManager.load(file);
 
     @Test
     public void shouldSaveAndLoad() {
@@ -19,7 +19,7 @@ class FileBackedTasksManagerTest extends TaskManagerTest<InMemoryTaskManager> {
         manager.addNewEpic(epic);
         manager.add(epic);
         manager.save();
-        FileBackedTasksManager manager1 = FileBackedTasksManager.loadFromFile(file);
+        FileBackedTasksManager manager1 = FileBackedTasksManager.load(file);
         assertAll(
                 () -> assertTrue(manager1.history().contains(epic)),
                 () -> assertEquals(manager1.history().size(), manager1.getCounter()),

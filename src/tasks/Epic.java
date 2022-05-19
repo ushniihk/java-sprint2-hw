@@ -7,16 +7,14 @@ import java.util.HashMap;
 import java.util.Objects;
 
 public class Epic extends Task {
-    private final String name;
-    private final String description;
+    private final String epicName;
+    private final String epicDescription;
     private HashMap<Integer, Subtask> subTaskList = new HashMap<>();
-    private Status status = Status.NEW;
-    private final Integer id;
-    private final TypeOfTask typeOfTask = TypeOfTask.EPIC;
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy. HH:mm");
-    private LocalDateTime startTime = LocalDateTime.parse("31.12.9999. 23:59", formatter);
-
-    private Duration duration = Duration.ZERO;
+    private Status epicStatus;
+    private final Integer epicId;
+    private TypeOfTask epicTypeOfTask;
+    private LocalDateTime epicStartTime;
+    private Duration epicDuration = Duration.ZERO;
 
     public void setStartTimeEpic() {
         if (!subTaskList.isEmpty()) {
@@ -25,13 +23,13 @@ public class Epic extends Task {
                 if (start.getStartTime().isBefore(time))
                     time = start.getStartTime();
             }
-            this.startTime = time;
+            this.epicStartTime = time;
         }
     }
 
     @Override
     public LocalDateTime getEndTime() {
-        return startTime.plus(duration);
+        return epicStartTime.plus(epicDuration);
     }
 
     public void setDurationEpic() {
@@ -41,17 +39,17 @@ public class Epic extends Task {
                 if (s.getEndTime().isAfter(time))
                     time = s.getEndTime();
             }
-            duration = Duration.between(getStartTime(), time);
+            epicDuration = Duration.between(getStartTime(), time);
         }
     }
 
     @Override
     public LocalDateTime getStartTime() {
-        return startTime;
+        return epicStartTime;
     }
 
     public Duration getDuration() {
-        return duration;
+        return epicDuration;
     }
 
     public void setSubTaskList(HashMap<Integer, Subtask> subTaskList) {
@@ -68,25 +66,34 @@ public class Epic extends Task {
 
     @Override
     public Status getStatus() {
-        return status;
+        return epicStatus;
     }
 
     @Override
     public Integer getId() {
-        return id;
+        return epicId;
     }
 
     public Epic(String name, Integer id, String description) {
-        this.name = name;
-        this.id = id;
-        this.description = description;
+        this.epicName = name;
+        this.epicId = id;
+        this.epicDescription = description;
+        this.epicStatus = Status.NEW;
+        this.epicTypeOfTask = TypeOfTask.EPIC;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy. HH:mm");
+        this.epicStartTime = LocalDateTime.parse("31.12.9999. 23:59", formatter);
+        this.epicDuration = Duration.ZERO;
     }
 
     public Epic(String name, String description, Status status, int id) {
-        this.name = name;
-        this.id = id;
-        this.description = description;
-        this.status = status;
+        this.epicName = name;
+        this.epicId = id;
+        this.epicDescription = description;
+        this.epicStatus = status;
+        this.epicTypeOfTask = TypeOfTask.EPIC;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy. HH:mm");
+        this.epicStartTime = LocalDateTime.parse("31.12.9999. 23:59", formatter);
+        this.epicDuration = Duration.ZERO;
     }
 
 
@@ -108,31 +115,31 @@ public class Epic extends Task {
             counterStatus++;
         }
         if (sum == (counterStatus * 3) && sum != 0) {
-            status = Status.DONE;
+            epicStatus = Status.DONE;
         } else if (sum > counterStatus) {
-            status = Status.IN_PROGRESS;
+            epicStatus = Status.IN_PROGRESS;
         }
     }
 
     @Override
     public String toString() {
         return "Epic{" +
-                "name='" + name + '\'' +
-                ", description='" + description + '\'' +
+                "name='" + epicName + '\'' +
+                ", description='" + epicDescription + '\'' +
                 ", subTaskList=" + subTaskList +
-                ", status=" + status +
-                ", id=" + id +
-                ", typeOfTask=" + typeOfTask +
-                ", startTime=" + startTime +
-                ", duration=" + duration +
+                ", status=" + epicStatus +
+                ", id=" + epicId +
+                ", typeOfTask=" + epicTypeOfTask +
+                ", startTime=" + epicStartTime +
+                ", duration=" + epicDuration +
                 '}';
     }
 
     public String forSaving() {
-        String dur = duration.toDays() + " " + duration.toHoursPart() + " "
-                + duration.toMinutesPart();
-        return id + "," + typeOfTask + "," + name + "," + status + "," + description + ","
-                + DateTimeFormatter.ofPattern("dd.MM.yyyy. HH:mm").format(startTime) + ","
+        String dur = epicDuration.toDays() + " " + epicDuration.toHoursPart() + " "
+                + epicDuration.toMinutesPart();
+        return epicId + "," + epicTypeOfTask + "," + epicName + "," + epicStatus + "," + epicDescription + ","
+                + DateTimeFormatter.ofPattern("dd.MM.yyyy. HH:mm").format(epicStartTime) + ","
                 + dur + "\n";
     }
 
@@ -142,12 +149,16 @@ public class Epic extends Task {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Epic epic = (Epic) o;
-        return Objects.equals(name, epic.name) && Objects.equals(description, epic.description) && Objects.equals(subTaskList, epic.subTaskList) && status == epic.status && Objects.equals(id, epic.id) && typeOfTask == epic.typeOfTask && Objects.equals(startTime, epic.startTime) && Objects.equals(duration, epic.duration);
+        return Objects.equals(epicName, epic.epicName) && Objects.equals(epicDescription, epic.epicDescription)
+                && Objects.equals(subTaskList, epic.subTaskList) && epicStatus == epic.epicStatus
+                && Objects.equals(epicId, epic.epicId) && epicTypeOfTask == epic.epicTypeOfTask
+                && Objects.equals(epicStartTime, epic.epicStartTime) && Objects.equals(epicDuration, epic.epicDuration);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), name, description, subTaskList, status, id, typeOfTask, startTime, duration);
+        return Objects.hash(super.hashCode(), epicName, epicDescription, subTaskList, epicStatus, epicId,
+                epicTypeOfTask, epicStartTime, epicDuration);
     }
 
     @Override

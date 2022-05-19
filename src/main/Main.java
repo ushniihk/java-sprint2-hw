@@ -13,7 +13,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         File file = new File("saving.csv");
-        FileBackedTasksManager fileBackedTasksManager = FileBackedTasksManager.loadFromFile(file);
+        FileBackedTasksManager fileBackedTasksManager = FileBackedTasksManager.load(file);
         while (true) {
             System.out.println("Что бы вы хотели сделать?\n" +
                     "1.Получить список всех задач\n" +
