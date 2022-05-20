@@ -1,6 +1,8 @@
-package tasks.manager;
+package tasks.Tests;
 
 import org.junit.jupiter.api.Test;
+import tasks.manager.HistoryManager;
+import tasks.manager.Managers;
 import tasks.tasks.Task;
 
 

@@ -1,4 +1,4 @@
-package tasks.API;
+package tasks.Tests;
 
 import com.google.gson.Gson;
 import org.junit.jupiter.api.Test;
@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class HttpTaskServerTest {
 
     @Test
-    public void main() {
+    public void main() throws InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
         URI url = URI.create("http://localhost:8081/tasks/");
         URI url1 = URI.create("http://localhost:8081/tasks/find/?id=0");
@@ -55,8 +55,8 @@ class HttpTaskServerTest {
         HttpRequest requestHistory = HttpRequest.newBuilder().uri(url5).GET().build();
         HttpRequest requestGetPrioritizedTasks = HttpRequest.newBuilder().uri(url6).GET().build();
         HttpRequest requestDeleteTask = HttpRequest.newBuilder().uri(url1).DELETE().build();
-        HttpRequest requestDeleteAll = HttpRequest.newBuilder().uri(url1).DELETE().build();
-        HttpRequest requestLoad = HttpRequest.newBuilder().uri(url5).GET().build();
+        HttpRequest requestDeleteAll = HttpRequest.newBuilder().uri(url).DELETE().build();
+        HttpRequest requestLoad = HttpRequest.newBuilder().uri(url7).GET().build();
 
 
         try {
@@ -102,11 +102,7 @@ class HttpTaskServerTest {
                 System.out.println("something was wrong, check your request");
             }
         } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
     }
-
 
 }

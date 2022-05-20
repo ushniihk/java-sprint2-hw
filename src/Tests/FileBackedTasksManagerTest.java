@@ -1,6 +1,8 @@
-package tasks.manager;
+package tasks.Tests;
 
 import org.junit.jupiter.api.Test;
+import tasks.manager.FileBackedTasksManager;
+import tasks.manager.InMemoryTaskManager;
 import tasks.tasks.Epic;
 
 import java.io.File;

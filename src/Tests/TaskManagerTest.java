@@ -1,6 +1,8 @@
-package tasks.manager;
+package tasks.Tests;
 
 import org.junit.jupiter.api.Test;
+import tasks.manager.InMemoryTaskManager;
+import tasks.manager.TaskManager;
 import tasks.tasks.Epic;
 import tasks.tasks.Status;
 import tasks.tasks.Subtask;

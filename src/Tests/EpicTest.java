@@ -1,6 +1,10 @@
-package tasks.tasks;
+package tasks.Tests;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import tasks.tasks.Epic;
+import tasks.tasks.Status;
+import tasks.tasks.Subtask;
 
 import java.time.Duration;
 
@@ -11,7 +15,7 @@ class EpicTest {
 
     @Test
     public void mustBeNewWithAnEmptyList() {
-        assertEquals(epic.getStatus(), Status.NEW);
+        Assertions.assertEquals(epic.getStatus(), Status.NEW);
     }
 
     @Test

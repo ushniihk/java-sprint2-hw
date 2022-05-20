@@ -1,6 +1,9 @@
-package tasks.tasks;
+package tasks.Tests;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import tasks.tasks.Status;
+import tasks.tasks.Subtask;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -12,7 +15,7 @@ class SubtaskTest {
     @Test
     void shouldSetStatusNew() {
         Subtask subtask = new Subtask("one", "to do", 0, 1, "11.11.2022. 11:11", "1 0 0");
-        assertEquals(subtask.getStatus(), Status.NEW);
+        Assertions.assertEquals(subtask.getStatus(), Status.NEW);
         subtask.setStatus(1);
         assertEquals(subtask.getStatus(), Status.NEW);
     }
